@@ -26,8 +26,8 @@ jobs:
       # Add the "Build and Push" step here
       - name: Build and push Docker images
         run: |
-         docker build -t shaficse/shaficse/ml-ait-st124047-test:latest .
-         docker push     shaficse/shaficse/ml-ait-st124047-test:latest
+         docker build -t shaficse/shaficse/checksalary:latest .
+         docker push     shaficse/shaficse/checksalary:latest
 
       - name: Up Docker Compose services
         run: docker-compose -f docker-compose.yml up -d

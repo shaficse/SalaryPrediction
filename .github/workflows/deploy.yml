@@ -22,6 +22,7 @@ jobs:
           pytest --verbose code/test.py
 
   build_n_push:
+    needs: unit_test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

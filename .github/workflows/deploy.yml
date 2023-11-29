@@ -44,5 +44,21 @@ jobs:
           run: |
             docker build -t shaficse/checksalary:latest .
             docker push     shaficse/checksalary:latest
-        - name: Up Docker Compose services
-          run: docker-compose -f docker-compose.yml up -d
+        # - name: Up Docker Compose services
+        #   run: docker-compose -f docker-compose.yml up -d
+    deploy:
+      needs: build_n_push
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+  
+        - name: Setup SSH
+          uses: webfactory/ssh-agent@v0.5
+          with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+  
+        - name: Deploy to EC2
+          run: |
+            ssh ec2-44-216-245-219.compute-1.amazonaws.com "docker-compose pull && docker-compose up -d"

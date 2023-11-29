@@ -26,27 +26,8 @@ jobs:
       # Add the "Build and Push" step here
       - name: Build and push Docker images
         run: |
-         docker build -t shaficse/shaficse/checksalary:latest .
-         docker push     shaficse/shaficse/checksalary:latest
+         docker build -t shaficse/checksalary:latest .
+         docker push     shaficse/checksalary:latest
 
       - name: Up Docker Compose services
         run: docker-compose -f docker-compose.yml up -d
-
-  ##uncomment this part if you want to deploy
-  # deploy:
-  #   needs: build_n_push
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: SSH Remote Commands
-  #       uses: appleboy/ssh-action@v1.0.0
-  #       with:
-  #         host: ${{ vars.HOST }}
-  #         username: ${{ secrets.USERNAME }}
-  #         key: ${{ secrets.KEY }}
-  #         proxy_host: ${{ vars.PROXY_HOST }}
-  #         proxy_username: ${{ secrets.USERNAME }}
-  #         proxy_key: ${{ secrets.KEY }}
-  #         script: |
-  #           tag=$github_ref_name docker compose -f st124047/docker-compose.yaml down
-  #           tag=$github_ref_name docker compose -f st124047/docker-compose.yaml up -d
-        

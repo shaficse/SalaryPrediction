@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .slider-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .slider-value {
+            margin-left: 10px;
+        }
+
+        .prediction-container {
+            margin-top: 20px;
+        }
+        #prediction-result {
+            font-weight: bold;
+            font-size: larger;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heart Disease Prediction</h1>
+    <form action="/predict" method="post">
+        <div class="slider-container">
+            <label for="age">Age:</label>
+            <input type="range" id="age" name="age" min="29" max="100" step="1" value="54" required>
+            <span class="slider-value" id="age-value">54</span>
+        </div>
+
+        <div class="slider-container">
+            <label for="resting_bp">Resting BP:</label>
+            <input type="range" id="resting_bp" name="resting_bp" min="94" max="200" step="1" value="132" required>
+            <span class="slider-value" id="resting_bp-value">132</span>
+        </div>
+
+        <div class="slider-container">
+            <label for="cholesterol">Cholesterol:</label>
+            <input type="range" id="cholesterol" name="cholesterol" min="126" max="417" step="1" value="245" required>
+            <span class="slider-value" id="cholesterol-value">245</span>
+        </div>
+
+        <div class="slider-container">
+            <label for="max_heart_rate">Max Heart Rate:</label>
+            <input type="range" id="max_heart_rate" name="max_heart_rate" min="71" max="202" step="1" value="150" required>
+            <span class="slider-value" id="max_heart_rate-value">150</span>
+        </div>
+
+        <div class="slider-container">
+            <label for="st_Depression">ST Depression:</label>
+            <input type="range" id="st_Depression" name="st_Depression" min="0" max="6" step="1" value="1" required>
+            <span class="slider-value" id="st_Depression-value">1</span>
+        </div>
+        
+        <!-- Add similar slider containers for other float values -->
+
+        <div class="slider-container">
+            <label for="sex_Male">Sex:</label>
+            <select name="sex_Male" required>
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+            </select>
+        </div>
+
+        <div class="slider-container">
+            <label for="fasting_Blood_Sugar_True">Fasting Blood Sugar:</label>
+            <select name="fasting_Blood_Sugar_True" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+
+        <div class="slider-container">
+            <label for="resting_ECG_normal">Resting ECG Normal:</label>
+            <select name="resting_ECG_normal" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+
+        <div class="slider-container">
+            <label for="chest_Pain_Type_atypical_angina">Chest Pain Type Atypical Angina:</label>
+            <select name="chest_Pain_Type_atypical_angina" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+        <div class="slider-container">
+            <label for="chest_Pain_Type_atypical_anginal">Chest Pain Type Atypical Anginal:</label>
+            <select name="chest_Pain_Type_atypical_anginal" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+
+        <div class="slider-container">
+            <label for="resting_ECG_st_t_wave_abnormality">Resting ECG ST T Wave Abnormality:</label>
+            <select name="resting_ECG_st_t_wave_abnormality" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+        <div class="slider-container">
+            <label for="exercise_Induced_Angina_True">Exercise Induced Angina:</label>
+            <select name="exercise_Induced_Angina_True" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+
+        <div class="slider-container">
+            <label for="slope_of_ST_flat">Slope of ST Flat:</label>
+            <select name="slope_of_ST_flat" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+
+        <div class="slider-container">
+            <label for="thalassemia_Type_normal">Thalassemia Type Normal:</label>
+            <select name="thalassemia_Type_normal" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+
+        <div class="slider-container">
+            <label for="thalassemia_Type_reversible_defect">Thalassemia Type Reversible Defect:</label>
+            <select name="thalassemia_Type_reversible_defect" required>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </div>
+
+        <!-- Add similar dropdowns for other binary features -->
+
+        <button type="submit">Predict</button>
+    </form>
+
+    <!-- Prediction Result Container -->
+    <div class="prediction-container" id="prediction-container" style="display: none;">
+        <p id="prediction-result"></p>
+    </div>
+
+    <script>
+        // Update slider values dynamically
+        const sliders = document.querySelectorAll('input[type="range"]');
+        sliders.forEach(slider => {
+            const sliderValue = document.getElementById(`${slider.id}-value`);
+            slider.addEventListener('input', () => {
+                sliderValue.textContent = slider.value;
+            });
+        });
+
+        // Show prediction result on form submission
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            const predictionContainer = document.getElementById('prediction-container');
+            const predictionResult = document.getElementById('prediction-result');
+
+            if (response.ok) {
+                // const result = await response.text();
+                const result = await response.json();
+                predictionResult.textContent =  result.prediction;
+                predictionContainer.style.display = 'block';
+            } else {
+                predictionResult.textContent = 'Error predicting outcome.';
+                predictionContainer.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,18 +1,6 @@
-version: '3.9'
-
+version: '3'
 services:
-  dash:
-    command: python3 main.py
-    image: shaficse/ml-ait-st124047:latest
-    platform: linux/x86_64
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  web:
+    build: .
     ports:
-      - 9001:80
-    volumes:
-      - ./code:/root/code
-      - ./.vscode-server:/root/.vscode-server
-    environment:
-      - HOST=0.0.0.0
-      - PORT=80
+      - "8080:8080"

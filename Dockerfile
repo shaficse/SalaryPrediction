@@ -1,11 +1,17 @@
-FROM python:3.11.4-bookworm
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
 
-WORKDIR /root/code
+# Set the working directory in the container
+WORKDIR /app
 
-RUN pip3 install dash
-RUN pip3 install dash_bootstrap_components
-RUN pip install scikit-learn==1.2.2
+# Copy the contents of the 'app' directory to the container at /app
+COPY ./app /app
 
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./code /root/code/
-CMD tail -f /dev/null
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+
+# Run app.py when the container launches
+CMD ["python", "/app/app.py"]

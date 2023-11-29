@@ -1,82 +1,79 @@
-from flask import Flask, render_template, request,jsonify
-import numpy as np
+from flask import Flask, render_template, request
 import joblib
+import numpy as np
+
+# Load the model and scaler from files
+loaded_model = joblib.load('best_model.pkl')
+loaded_scaler = joblib.load('scaler.pkl')
 
 app = Flask(__name__)
 
-# Load the model and scaler
-loaded_model = joblib.load('./best_model.pkl')
-loaded_scaler = joblib.load('./scaler.pkl')
+# Job title options
+job_title_options = {
+    'Accountant': 0, 'Back end Developer': 1, 'Business Analyst': 2, 'Business Development Associate': 3,
+    'Business Development Manager': 4, 'Content Marketing Manager': 5, 'Customer Service Representative': 6,
+    'Data Analyst': 7, 'Data Scientist': 8, 'Delivery Driver': 9, 'Digital Marketing Manager': 10,
+    'Digital Marketing Specialist': 11, 'Director of Data Science': 12, 'Director of HR': 13,
+    'Director of Marketing': 14, 'Director of Operations': 15, 'Financial Advisor': 16, 'Financial Analyst': 17,
+    'Financial Manager': 18, 'Front End Developer': 19, 'Front end Developer': 20, 'Full Stack Engineer': 21,
+    'Graphic Designer': 22, 'HR Coordinator': 23, 'HR Generalist': 24, 'HR Manager': 25,
+    'Human Resources Coordinator': 26, 'Human Resources Manager': 27, 'Marketing Analyst': 28,
+    'Marketing Coordinator': 29, 'Marketing Director': 30, 'Marketing Manager': 31, 'Marketing Specialist': 32,
+    'Operations Analyst': 33, 'Operations Coordinator': 34, 'Operations Manager': 35, 'Other': 36,
+    'Product Designer': 37, 'Product Manager': 38, 'Product Marketing Manager': 39, 'Project Coordinator': 40,
+    'Project Engineer': 41, 'Project Manager': 42, 'Receptionist': 43, 'Research Director': 44,
+    'Research Scientist': 45, 'Sales Associate': 46, 'Sales Director': 47, 'Sales Executive': 48,
+    'Sales Manager': 49, 'Sales Representative': 50, 'Social Media Manager': 51, 'Software Developer': 52,
+    'Software Engineer': 53, 'Software Engineer Manager': 54, 'UX Designer': 55, 'Web Developer': 56
+}
+
+# Type title options
+type_title_options = {
+    'hr': 0, 'design': 1, 'management': 2, 'engineer': 3, 'technical': 4, 'business': 5, 'operation': 6
+}
+
+# Education level options
+education_level_options = {
+    'Education Level 0': 0, 'Education Level 1': 1, 'Education Level 2': 2, 'Education Level 3': 3
+}
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', prediction_text="", default_experience=0, default_job_title_order="", default_education_level="", default_type_title="", job_title_options=job_title_options, type_title_options=type_title_options, education_level_options=education_level_options)
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if request.method == 'POST':
-        # Get user input from the form
-        age = float(request.form['age'])
-        resting_bp = float(request.form['resting_bp'])
-        cholesterol = float(request.form['cholesterol'])
-        max_heart_rate = float(request.form['max_heart_rate'])
-        st_Depression = float(request.form['st_Depression'])
-
-        # Convert binary dropdown values to 1 or 0
-        sex_Male = int(request.form['sex_Male'])
-        fasting_Blood_Sugar_True = int(request.form['fasting_Blood_Sugar_True'])
-        chest_Pain_Type_atypical_angina = int(request.form['chest_Pain_Type_atypical_angina'])
-        chest_Pain_Type_atypical_anginal = int(request.form['chest_Pain_Type_atypical_anginal'])
-        resting_ECG_normal = int(request.form['resting_ECG_normal'])
-        resting_ECG_st_t_wave_abnormality = int(request.form['resting_ECG_st_t_wave_abnormality'])
-        exercise_Induced_Angina_True = int(request.form['exercise_Induced_Angina_True'])
-        slope_of_ST_flat = int(request.form['slope_of_ST_flat'])
-        thalassemia_Type_normal = int(request.form['thalassemia_Type_normal'])
-        thalassemia_Type_reversible_defect = int(request.form['thalassemia_Type_reversible_defect'])
-        
-        # Add other binary features here...
+    try:
+        # Extract data from the form
+        experience = request.form['experience']
+        job_title_order = request.form['job_title_order']
+        education_level = request.form['education_level']
+        type_title = request.form['type_title']
 
         # Create a NumPy array with the input features
-        # user_input = np.array([age, resting_bp, cholesterol, max_heart_rate, st_Depression, sex_Male,
-        #                        f
-        # asting_Blood_Sugar_True])
-        # age = 30
-        # resting_bp = 62
-        # cholesterol = 343
-        # max_heart_rate = 77
-        # st_Depression = 0.1
-        # sex_Male = 0
-        # chest_Pain_Type_atypical_angina = 0
-        # chest_Pain_Type_atypical_anginal = 0
-        # fasting_Blood_Sugar_True = 1
-        # resting_ECG_normal = 0
-        # resting_ECG_st_t_wave_abnormality = 1
-        # exercise_Induced_Angina_True = 0
-        # slope_of_ST_flat = 1
-        # thalassemia_Type_normal = 1
-        # thalassemia_Type_reversible_defect = 0
-        user_input = np.array([age, resting_bp, cholesterol, max_heart_rate, st_Depression, sex_Male, chest_Pain_Type_atypical_angina,
-                       chest_Pain_Type_atypical_anginal, fasting_Blood_Sugar_True, resting_ECG_normal,
-                       resting_ECG_st_t_wave_abnormality, exercise_Induced_Angina_True, slope_of_ST_flat,
-                       thalassemia_Type_normal, thalassemia_Type_reversible_defect])
-        print(user_input)
-        # Separate the features to scale
-        features_to_scale = user_input[:5]
+        input_features = np.array([[float(experience), int(job_title_options[job_title_order]), int(education_level_options[education_level]), int(type_title_options[type_title])]])
 
-        # Fit and transform the scaler on the training data
-        scaled_features = loaded_scaler.transform(features_to_scale.reshape(1, -1))
+        # Scale only the "Years of Experience" feature using the loaded scaler
+        input_features[:, 0] = loaded_scaler.transform(input_features[:, 0].reshape(-1, 1)).flatten()
+        
+        # Make predictions using the loaded model
+        predicted_salary = loaded_model.predict(input_features)
 
-        # Update the user_input with the scaled features
-        user_input[:5] = scaled_features.flatten()
-        print(user_input)
-        # Now you can use the user_input for prediction
-        prediction = loaded_model.predict(user_input.reshape(1, -1))[0]
-        if prediction:
-            prediction = "May Have Heart Disease."
-        else:
-            prediction = "No Heart Disease."
+        # Print or use the prediction as needed
+        result = np.exp(predicted_salary[0])
 
-        return jsonify({'prediction': prediction})
+
+        prediction_text = f"Predicted Salary is {result:,.2f} $"
+
+        # Pass the experience and dropdown values back to the form for display
+        return render_template('index.html', prediction_text=prediction_text, default_experience=experience,
+                            default_job_title_order=job_title_order, default_education_level=education_level, default_type_title=type_title, job_title_options=job_title_options, type_title_options=type_title_options, education_level_options=education_level_options)
+    except Exception as e:
+        error_message = f"An error occurred: {str(e)}"
+        # Pass the experience and dropdown values back to the form for display
+        return render_template('index.html', prediction_text=error_message, default_experience=experience,
+                            default_job_title_order=job_title_order, default_education_level=education_level, default_type_title=type_title, job_title_options=job_title_options, type_title_options=type_title_options, education_level_options=education_level_options)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

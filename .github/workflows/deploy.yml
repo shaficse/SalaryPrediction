@@ -19,7 +19,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          pytest --verbose app/test.py
+          pytest --verbose code/test.py
 
   build_n_push:
     runs-on: ubuntu-latest

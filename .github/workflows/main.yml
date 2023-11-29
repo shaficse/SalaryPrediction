@@ -45,8 +45,8 @@ jobs:
          docker build -t shaficse/checksalary:v1
          docker push     shaficse/checksalary:v1
 
-      - name: Up Docker Compose services
-        run: docker-compose -f docker-compose.yml up -d
+      # - name: Up Docker Compose services
+      #   run: docker-compose -f docker-compose.yml up -d
 
 
 

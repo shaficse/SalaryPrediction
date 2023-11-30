@@ -19,7 +19,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          pytest --verbose code/test.py
+          pytest --verbose app/test.py
 
   build_n_push:
     needs: unit_test

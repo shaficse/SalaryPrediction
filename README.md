@@ -116,7 +116,7 @@ Feel free to customize the workflow or add additional steps based on your projec
 ## Contributors
 - [Md Shafi Ud Doula](https://github.com/shaficse)
 - [Tanzil Al Sabah](https://github.com/tanziltonmoy)
-- [Munthitra] (https://github.com/Munthitra)
-- [Anawat] (https://github.com/AndromedaPirate)
-- [Chatpol-Phongyen] (https://github.com/Chatpol-Phongyen)
-- [Ritik] (https://github.com/RitikSareen)
+- [Munthitra](https://github.com/Munthitra)
+- [Anawat](https://github.com/AndromedaPirate)
+- [Chatpol-Phongyen](https://github.com/Chatpol-Phongyen)
+- [Ritik](https://github.com/RitikSareen)

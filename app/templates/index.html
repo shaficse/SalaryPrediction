@@ -105,7 +105,7 @@
 
       <!-- Dropdown for Type Title -->
       <select name="type_title" required="required">
-        <option value="" disabled selected>Select Type</option>
+        <option value="" disabled selected>Select Type of Job</option>
         {% for type_title, value in type_title_options.items() %}
           <option value="{{ type_title }}" {% if default_type_title == type_title %} selected {% endif %}>{{ type_title }}</option>
         {% endfor %}

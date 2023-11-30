@@ -60,6 +60,8 @@ jobs:
           with:
             # ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
+            host: "ec2-44-216-245-219.compute-1.amazonaws.com"
+            username: ${{ secrets.USERNAME }}
   
         - name: Deploy to EC2
           run: |

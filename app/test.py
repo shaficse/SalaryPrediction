@@ -2,8 +2,8 @@ import joblib
 import numpy as np
 
 # Load the model and scaler from files
-loaded_model = joblib.load('best_model.pkl')
-loaded_scaler = joblib.load('scaler.pkl')
+loaded_model = joblib.load('./best_model.pkl')
+loaded_scaler = joblib.load('./scaler.pkl')
 
 # Take user input for Years of Experience
 years_of_experience = 34
@@ -21,13 +21,13 @@ input_features[:, 0] = loaded_scaler.transform(input_features[:, 0].reshape(-1, 
 
 def test_input():
         try:
-            _ = loaded_model.predict(input_feature)
+            _ = loaded_model.predict(input_features)
         except Exception as e:
             assert False, f"Model failed to take expected input: {e}"
     
 def test_output_shape():    
     try:
-        prediction = loaded_model.predict(input_feature)
+        prediction = loaded_model.predict(input_features)
         assert prediction.shape == (1,), "Output shape is not as expected"
     except Exception as e:
         assert False, f"Output shape test failed: {e}"

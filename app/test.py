@@ -1,9 +1,17 @@
 import joblib
 import numpy as np
+import os
 
-# Load the model and scaler from files
-loaded_model = joblib.load('./best_model.pkl')
-loaded_scaler = joblib.load('./scaler.pkl')
+# Get the absolute path to the current directory
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the absolute path to best_model.pkl
+model_path = os.path.join(current_directory, 'best_model.pkl')
+
+scaler_path = os.path.join(current_directory,'scaler.pkl')
+
+loaded_model = joblib.load(model_path)
+loaded_scaler = joblib.load(scaler_path)
 
 # Take user input for Years of Experience
 years_of_experience = 34

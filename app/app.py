@@ -34,7 +34,7 @@ type_title_options = {
 
 # Education level options
 education_level_options = {
-    'Education Level 0': 0, 'Education Level 1': 1, 'Education Level 2': 2, 'Education Level 3': 3
+    'High School': 0, 'Bachelor': 1, 'Master Degree': 2, 'PhD': 3
 }
 
 @app.route('/')

@@ -94,13 +94,13 @@ The project utilizes GitHub Actions for continuous integration. The workflow is 
 
 2. **Docker Image Building and Pushing:** Automatically build a Docker image of the application and push it to Docker Hub.
 
-3. **Continuous Deployment:** The workflow is triggered on each push to the main branch. It ensures that changes are automatically tested and deployed, maintaining a reliable and up-to-date application.
+3. **Continuous Deployment:** The workflow is triggered on each push to the main branch. It ensures that changes are automatically tested and deployed, maintaining a reliable and up-to-date application in an AWS EC2 instance.
 
 ## Setting Up GitHub Actions
 
 To set up GitHub Actions for your repository, ensure that you have the following in place:
 
-1. **Unit Tests:** Write unit tests for your application and place them in the [tests](tests) directory.
+1. **Unit Tests:** Write unit tests for your application and place them in the app directory.
 
 2. **GitHub Actions Workflow:** Define your GitHub Actions workflow in a YAML file, typically located in the `.github/workflows/` directory. For example, [.github/workflows/deploy_with_docker_compose.yml](.github/workflows/deploy_with_docker_compose.yml).
 

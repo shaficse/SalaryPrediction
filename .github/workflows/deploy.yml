@@ -60,7 +60,7 @@ jobs:
       - name: Copy Docker Compose Files to EC2
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
-          chmod 600 key.pem
+          # chmod 600 key.pem
           scp -i key.pem -o StrictHostKeyChecking=no -r docker-compose.yml ${{ secrets.EC2_HOST }}:/home/ubuntu/salaryPred/
         shell: bash
       

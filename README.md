@@ -61,6 +61,7 @@ This project is a web application that predicts salaries based on input features
 - *Dockerfile*: Dockerfile for building the application image.
 - **.github/workflows/**
   - *deploy.yml*: GitHub Actions workflow for continuous integration and deployment.
+  ![](screenshots/gitactions.png)
 
 ## Training and Evaluation
 The Random Forest model for salary prediction was trained on a dataset, and the following metrics were obtained on the testing data:
@@ -113,7 +114,7 @@ Feel free to customize the workflow or add additional steps based on your projec
 
 
 
-## Contributors
+## Contributing
 - [Md Shafi Ud Doula](https://github.com/shaficse)
 - [Tanzil Al Sabah](https://github.com/tanziltonmoy)
 - [Munthitra](https://github.com/Munthitra)

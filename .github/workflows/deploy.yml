@@ -45,27 +45,6 @@ jobs:
         run: |
           docker build -t shaficse/checksalary:latest .
           docker push     shaficse/checksalary:latest
-      # - name: Up Docker Compose services
-      #   run: docker-compose -f docker-compose.yml up -d
-  # deploy_to_ec2:
-  #   needs: build_n_push
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-
-  #     - name: Install SSH Client
-  #       run: sudo apt-get install openssh-client -y
-
-  #     - name: SSH into EC2 and Deploy
-  #       run: |
-  #         ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'ENDSSH'
-  #           cd /home/ubuntu/salaryPred/
-  #           ls -la  # Add this line for debugging to list files in the deployment directory
-  #           docker-compose config  # Add this line to check the syntax of the Docker Compose file
-  #           docker-compose pull
-  #           docker-compose up -d
-  #         ENDSSH
       
   deploy:
     needs: build_n_push
@@ -82,4 +61,4 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-216-245-219.compute-1.amazonaws.com "cd /home/ubuntu/salaryPred && sudo docker-compose up -d"
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-216-245-219.compute-1.amazonaws.com "cd /home/ubuntu/salaryPred && sudo docker pull shaficse/checksalary:latest && sudo docker-compose up -d"

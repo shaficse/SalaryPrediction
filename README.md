@@ -15,7 +15,6 @@ This project is a web application that predicts salaries based on input features
 - [Docker Deployment](#docker-deployment)
 - [Continuous Integration](#continuous-integration)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 

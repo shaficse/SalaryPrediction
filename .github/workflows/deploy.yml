@@ -55,13 +55,9 @@ jobs:
           uses: actions/checkout@v2
   
         - name: Setup SSH
-          # uses: webfactory/ssh-agent@v0.8.0
-          uses: appleboy/ssh-action@v1.0.0
+          uses: webfactory/ssh-agent@v0.8.0
           with:
-            # ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            host: "ec2-44-216-245-219.compute-1.amazonaws.com"
-            username: ${{ secrets.USERNAME }}
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
   
         - name: Deploy to EC2
           run: |

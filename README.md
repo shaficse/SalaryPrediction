@@ -102,7 +102,7 @@ To set up GitHub Actions for your repository, ensure that you have the following
 
 1. **Unit Tests:** Write unit tests for your application and place them in the app directory.
 
-2. **GitHub Actions Workflow:** Define your GitHub Actions workflow in a YAML file, typically located in the `.github/workflows/` directory. For example, [.github/workflows/deploy_with_docker_compose.yml](.github/workflows/deploy_with_docker_compose.yml).
+2. **GitHub Actions Workflow:** Define your GitHub Actions workflow in a YAML file, typically located in the `.github/workflows/` directory. For example, [.github/workflows/deploy_with_docker_compose.yml](.github/workflows/deploy.yml).
 
 3. **Docker Hub Secrets:** Configure the required secrets in your GitHub repository settings:
    - `DOCKER_USERNAME`: Your Docker Hub username.
